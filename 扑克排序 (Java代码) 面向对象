@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+public class Main implements Comparable<Object> {
+	int num;     //表示牌面值的优先级: 2/3/4/5/6/7/8/9/10/11/12/13/14
+	String zhi;  //表示牌面原本的值: 2/3/4/5/6/7/8/9/10/J/Q/K/A
+	int color;   //表示牌面花色的优先级: 0/1/2/3
+	char se;     //表示牌面花色原本的值: d/c/h/s
+	Main(String num,char color){   //构造并重新设置花色优先级、牌面优先级
+		this.se=color;this.zhi=num;
+		if(color=='d')this.color=0;
+		if(color=='c')this.color=1;
+		if(color=='h')this.color=2;
+		if(color=='s')this.color=3;
+		if(num.equals("J"))this.num=11;
+		else if(num.equals("Q"))this.num=12;
+		else if(num.equals("K"))this.num=13;
+		else if(num.equals("A"))this.num=14;
+		else this.num=Integer.parseInt(num);
+	}
+	public int compareTo(Object o) {
+		int flag=-1;
+		Main o1=(Main)o;
+		if(this.num>o1.num)               //先比较数值优先级
+			flag=1;
+		else if(this.num==o1.num) {       //再比较花色优先级
+			if(this.color>o1.color)
+				flag=1;
+			else
+				flag=-1;
+		}
+		return flag;
+	}
+	public String toString() {
+		return this.zhi+this.se;           //输出格式
+	}
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		String s =in.next();
+		ArrayList<Main> arr =new ArrayList<Main>();
+		int i=0;
+		while(i<s.length()) {   //控制当i=length时停止输入
+			if(s.charAt(i)>='2'&&s.charAt(i)<='9')
+				{arr.add(new Main(""+s.charAt(i),s.charAt(i+1)));i=i+2;}
+			else if(s.charAt(i)=='J')
+				{arr.add(new Main("J", s.charAt(i+1)));i=i+2;}
+			else if(s.charAt(i)=='Q')
+				{arr.add(new Main("Q", s.charAt(i+1)));i=i+2;}
+			else if(s.charAt(i)=='K')
+				{arr.add(new Main("K", s.charAt(i+1)));i+=2;}
+			else if(s.charAt(i)=='A')
+				{arr.add(new Main("A", s.charAt(i+1)));i+=2;}
+			else          //此时为牌面为10
+				{arr.add(new Main("10",s.charAt(i+2)));i+=3;}
+		}
+		Collections.sort(arr);
+		for(Main e:arr)
+			System.out.print(e+" ");
+ 		in.close();
+	}
+}
