@@ -1,0 +1,21 @@
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入a：");
+        int a = sc.nextInt();
+        System.out.println("请输入项数：");
+        int count = sc.nextInt();
+        int res = 0;
+        int temp = 0;
+        for (int i = 0; i < count; i++) {
+            if (i == 0) {
+                temp = a;
+                res += temp;
+            } else {
+                temp = temp * 10 + a;
+                res += temp;
+            }
+        }
+        System.out.println("结果：" + res);
+    }
+}
